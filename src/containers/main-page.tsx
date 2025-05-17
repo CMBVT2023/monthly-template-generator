@@ -5,15 +5,12 @@ import FilePicker from "@/components/client/file-picker";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Input } from "@/components/ui/input";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { RadioGroup } from "@/components/ui/radio-group";
 import { Switch } from "@/components/ui/switch";
-import { RadioGroupItem } from "@radix-ui/react-radio-group";
 import { addDays, format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { useState } from "react";
@@ -53,7 +50,7 @@ export default function MainPage() {
       <div>
         <Checkbox
           id="Monday"
-          onCheckedChange={(e) =>
+          onCheckedChange={() =>
             setSelectedDaysOfWeek((prev) => [...prev, "Monday"])
           }
         />
