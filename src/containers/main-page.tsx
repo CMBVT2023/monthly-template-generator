@@ -1,9 +1,16 @@
 "use client";
 
+import CoordinateInputs from "@/components/client/coordinate-inputs";
+import FilePicker from "@/components/client/file-picker";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { RadioGroup } from "@/components/ui/radio-group";
 import { Switch } from "@/components/ui/switch";
 import { RadioGroupItem } from "@radix-ui/react-radio-group";
@@ -29,38 +36,32 @@ export default function MainPage() {
 
   return (
     <div>
-      <Input
-        value={xCoordinate}
-        onChange={(e) => setXCoordinate(parseInt(e.target.value))}
-        type="number"
-        min={0}
-        max={100}
-      />
-      <Input
-        value={yCoordinate}
-        onChange={(e) => setYCoordinate(parseInt(e.target.value))}
-        type="number"
-        min={0}
-        max={100}
+      <CoordinateInputs
+        xCoordinate={xCoordinate}
+        setXCoordinate={setXCoordinate}
+        yCoordinate={yCoordinate}
+        setYCoordinate={setYCoordinate}
       />
 
-      <Input
-        onChange={(e) => setTemplateFile(e.target.files[0])}
-        type="file"
-        accept="application/pdf"
-      />
+      <FilePicker currentFile={templateFile} setCurrentFile={setTemplateFile} />
 
       <Switch
         checked={isExcluding}
         onCheckedChange={() => setIsExcluding(!isExcluding)}
       />
 
+      <div>
+        <Checkbox
+          id="Monday"
+          onCheckedChange={(e) =>
+            setSelectedDaysOfWeek((prev) => [...prev, "Monday"])
+          }
+        />
+      </div>
+
       <Popover>
         <PopoverTrigger asChild>
-          <Button
-            id="date"
-            variant={"outline"}
-          >
+          <Button id="date" variant={"outline"}>
             <CalendarIcon />
             {dateRange?.from ? (
               dateRange.to ? (
