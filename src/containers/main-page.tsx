@@ -4,7 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { RadioGroup } from "@/components/ui/radio-group";
 import { Switch } from "@/components/ui/switch";
+import { RadioGroupItem } from "@radix-ui/react-radio-group";
 import { addDays, format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { useState } from "react";
@@ -52,8 +54,6 @@ export default function MainPage() {
         checked={isExcluding}
         onCheckedChange={() => setIsExcluding(!isExcluding)}
       />
-
-      
 
       <Popover>
         <PopoverTrigger asChild>
