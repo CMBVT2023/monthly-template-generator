@@ -1,9 +1,9 @@
-import { ChangeEvent, Dispatch } from "react";
+import type { ChangeEvent, Dispatch } from "react";
 import { Input } from "../ui/input";
 
 interface FilePickerProps {
     currentFile: File | null;
-    setCurrentFile: Dispatch<File>;
+    setCurrentFile: Dispatch<SetStateAction<File | null>>;
 }
 
 export default function FilePicker({currentFile, setCurrentFile}: FilePickerProps) {

@@ -1,11 +1,11 @@
-import { ChangeEvent, Dispatch } from "react";
+import type { ChangeEvent, Dispatch, SetStateAction } from "react";
 import { Input } from "../ui/input";
 
 interface CoordinateInputsProps {
   xCoordinate: number;
   yCoordinate: number;
-  setXCoordinate: Dispatch<number>;
-  setYCoordinate: Dispatch<number>;
+  setXCoordinate: Dispatch<SetStateAction<number>>;
+  setYCoordinate: Dispatch<SetStateAction<number>>;
 }
 
 export default function CoordinateInputs({

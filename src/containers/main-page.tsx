@@ -2,15 +2,14 @@
 
 import CoordinateInputs from "@/components/client/coordinate-inputs";
 import FilePicker from "@/components/client/file-picker";
+import WeekdaySwitch from "@/components/client/weekday-switch";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Switch } from "@/components/ui/switch";
 import { addDays, format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { useState } from "react";
@@ -29,7 +28,7 @@ export default function MainPage() {
 
   const [isExcluding, setIsExcluding] = useState<boolean>(false);
 
-  const [selectedDaysOfWeek, setSelectedDaysOfWeek] = useState<string[]>([]);
+  const [selectedDaysOfWeek, setSelectedDaysOfWeek] = useState<number[]>([]);
 
   return (
     <div>
@@ -42,19 +41,7 @@ export default function MainPage() {
 
       <FilePicker currentFile={templateFile} setCurrentFile={setTemplateFile} />
 
-      <Switch
-        checked={isExcluding}
-        onCheckedChange={() => setIsExcluding(!isExcluding)}
-      />
-
-      <div>
-        <Checkbox
-          id="Monday"
-          onCheckedChange={() =>
-            setSelectedDaysOfWeek((prev) => [...prev, "Monday"])
-          }
-        />
-      </div>
+      <WeekdaySwitch isExcluding={isExcluding} setIsExcluding={setIsExcluding} setSelectedDaysOfWeek={setSelectedDaysOfWeek} />
 
       <Popover>
         <PopoverTrigger asChild>
