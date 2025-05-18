@@ -42,8 +42,8 @@ export default function WeekdaySelector({
     const id = `${name}-CheckBox`;
     return (
       <div key={id}>
-        <Label htmlFor={id}>{name}</Label>
         <Checkbox id={id} onCheckedChange={() => toggleWeekDay(index)} />
+        <Label htmlFor={id}>{name}</Label>
       </div>
     );
   });
