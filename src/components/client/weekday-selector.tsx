@@ -50,10 +50,16 @@ export default function WeekdaySelector({
 
   return (
     <div>
-      <Switch
-        checked={isExcluding}
-        onCheckedChange={() => setIsExcluding(!isExcluding)}
-      />
+      <div>
+        <Label htmlFor="exclusion-switch">
+          {isExcluding ? "Excluding" : "Including"}
+        </Label>
+        <Switch
+          id="exclusion-switch"
+          checked={isExcluding}
+          onCheckedChange={() => setIsExcluding(!isExcluding)}
+        />
+      </div>
 
       {CheckBoxes}
     </div>
