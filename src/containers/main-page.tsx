@@ -1,17 +1,10 @@
 "use client";
 
 import CoordinateInputs from "@/components/client/coordinate-inputs";
+import DateRangePicker from "@/components/client/date-range-picker";
 import FilePicker from "@/components/client/file-picker";
 import WeekdaySelector from "@/components/client/weekday-selector";
-import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { addDays, format } from "date-fns";
-import { CalendarIcon } from "lucide-react";
+import { addDays } from "date-fns";
 import { useState } from "react";
 import { DateRange } from "react-day-picker";
 
@@ -47,35 +40,7 @@ export default function MainPage() {
         setSelectedDaysOfWeek={setSelectedDaysOfWeek}
       />
 
-      <Popover>
-        <PopoverTrigger asChild>
-          <Button id="date" variant={"outline"}>
-            <CalendarIcon />
-            {dateRange?.from ? (
-              dateRange.to ? (
-                <>
-                  {format(dateRange.from, "LLL dd, y")} -{" "}
-                  {format(dateRange.to, "LLL dd, y")}
-                </>
-              ) : (
-                format(dateRange.from, "LLL dd, y")
-              )
-            ) : (
-              <span>Pick a date</span>
-            )}
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent className="w-auto p-0" align="start">
-          <Calendar
-            initialFocus
-            mode="range"
-            defaultMonth={dateRange?.from}
-            selected={dateRange}
-            onSelect={setDateRange}
-            numberOfMonths={2}
-          />
-        </PopoverContent>
-      </Popover>
+      <DateRangePicker dateRange={dateRange} setDateRange={setDateRange} />
     </div>
   );
 }
