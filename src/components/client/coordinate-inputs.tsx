@@ -1,4 +1,4 @@
-import { Dispatch } from "react";
+import { ChangeEvent, Dispatch } from "react";
 import { Input } from "../ui/input";
 
 interface CoordinateInputsProps {
@@ -14,18 +14,36 @@ export default function CoordinateInputs({
   setXCoordinate,
   setYCoordinate,
 }: CoordinateInputsProps) {
+  function validateCoordinate(e: ChangeEvent<HTMLInputElement>) {
+    let value = parseInt(e.target.value);
+
+    if (value < 0 || Number.isNaN(value)) {
+      value = 0;
+    } else if (value > 100) {
+      value = 100;
+    }
+
+    if (e.target.id === "x-coordinate") {
+      setXCoordinate(value);
+    } else if (e.target.id === "y-coordinate") {
+      setYCoordinate(value);
+    }
+  }
+
   return (
     <div>
       <Input
+        id="x-coordinate"
         value={xCoordinate}
-        onChange={(e) => setXCoordinate(parseInt(e.target.value))}
+        onChange={validateCoordinate}
         type="number"
         min={0}
         max={100}
       />
       <Input
+        id="y-coordinate"
         value={yCoordinate}
-        onChange={(e) => setYCoordinate(parseInt(e.target.value))}
+        onChange={validateCoordinate}
         type="number"
         min={0}
         max={100}
