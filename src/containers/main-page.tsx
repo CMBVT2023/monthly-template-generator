@@ -5,18 +5,26 @@ import DateRangePicker from "@/components/client/date-range-picker";
 import FilePicker from "@/components/client/file-picker";
 import PDFDisplay from "@/components/client/pdf-display";
 import WeekdaySelector from "@/components/client/weekday-selector";
+import { getFilePath, modifyPDFFile } from "@/utils/pdf";
 import { addDays } from "date-fns";
 import { useEffect, useState } from "react";
 import { DateRange } from "react-day-picker";
+
+/* //ToDo:
+  Add a font size input
+  Add a page selector (To allow user to add date to pages other than the first)
+  Add a color selector for the font color
+ */
 
 export default function MainPage() {
   const [xCoordinate, setXCoordinate] = useState<number>(0);
   const [yCoordinate, setYCoordinate] = useState<number>(0);
 
   const [templateFile, setTemplateFile] = useState<File | null>(null);
-
-  const [pdfFileArrayBuffer, setPDFFileArrayBuffer] =
+  const [templateFileArrayBuffer, setTemplateFileArrayBuffer] =
     useState<ArrayBuffer | null>(null);
+
+  const [pdfFilePath, setPDFFilePath] = useState<string>("");
 
   const [dateRange, setDateRange] = useState<DateRange | undefined>({
     from: new Date(),
@@ -30,13 +38,41 @@ export default function MainPage() {
   useEffect(() => {
     async function getArrayBuffer(file: File) {
       const arrayBuffer = await file.arrayBuffer();
-      setPDFFileArrayBuffer(arrayBuffer);
+      setTemplateFileArrayBuffer(arrayBuffer);
+
+      const filePath = await getFilePath(arrayBuffer);
+      setPDFFilePath(filePath);
     }
 
     if (templateFile !== null) {
       getArrayBuffer(templateFile);
     }
   }, [templateFile]);
+
+  useEffect(() => {
+    async function getDisplayPDF(
+      x: number,
+      y: number,
+      date: Date,
+      arrayBuffer: ArrayBuffer
+    ) {
+      const newFilePath = await modifyPDFFile(x, y, date, arrayBuffer);
+      setPDFFilePath(newFilePath);
+    }
+
+    if (
+      templateFileArrayBuffer !== null &&
+      dateRange !== undefined &&
+      dateRange.from !== undefined
+    ) {
+      getDisplayPDF(
+        xCoordinate,
+        yCoordinate,
+        dateRange.from,
+        templateFileArrayBuffer
+      );
+    }
+  }, [xCoordinate, yCoordinate, dateRange, templateFileArrayBuffer]);
 
   return (
     <div>
@@ -57,7 +93,7 @@ export default function MainPage() {
 
       <DateRangePicker dateRange={dateRange} setDateRange={setDateRange} />
 
-      <PDFDisplay pdfFileArrayBuffer={pdfFileArrayBuffer} />
+      <PDFDisplay pdfFilePath={pdfFilePath} />
     </div>
   );
 }
