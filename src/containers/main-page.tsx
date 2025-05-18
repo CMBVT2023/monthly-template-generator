@@ -39,9 +39,6 @@ export default function MainPage() {
     async function getArrayBuffer(file: File) {
       const arrayBuffer = await file.arrayBuffer();
       setTemplateFileArrayBuffer(arrayBuffer);
-
-      const filePath = await getFilePath(arrayBuffer);
-      setPDFFilePath(filePath);
     }
 
     if (templateFile !== null) {
@@ -50,6 +47,8 @@ export default function MainPage() {
   }, [templateFile]);
 
   useEffect(() => {
+    let loadingTimeout: NodeJS.Timeout| null = null;
+
     async function getDisplayPDF(
       x: number,
       y: number,
@@ -65,13 +64,17 @@ export default function MainPage() {
       dateRange !== undefined &&
       dateRange.from !== undefined
     ) {
-      getDisplayPDF(
-        xCoordinate,
-        yCoordinate,
-        dateRange.from,
-        templateFileArrayBuffer
-      );
+      const date = dateRange.from;
+      loadingTimeout = setTimeout(() => {
+        getDisplayPDF(xCoordinate, yCoordinate, date, templateFileArrayBuffer);
+      }, 500);
     }
+
+    return () => {
+      if (loadingTimeout !== null) {
+        clearTimeout(loadingTimeout);
+      }
+    };
   }, [xCoordinate, yCoordinate, dateRange, templateFileArrayBuffer]);
 
   return (
