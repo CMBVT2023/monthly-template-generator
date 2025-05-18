@@ -14,7 +14,8 @@ export default function MainPage() {
   const [yCoordinate, setYCoordinate] = useState<number>(0);
 
   const [templateFile, setTemplateFile] = useState<File | null>(null);
-  const [templateFileArrayBuffer, setTemplateFileArrayBuffer] =
+
+  const [pdfFileArrayBuffer, setPDFFileArrayBuffer] =
     useState<ArrayBuffer | null>(null);
 
   const [dateRange, setDateRange] = useState<DateRange | undefined>({
@@ -29,7 +30,7 @@ export default function MainPage() {
   useEffect(() => {
     async function getArrayBuffer(file: File) {
       const arrayBuffer = await file.arrayBuffer();
-      setTemplateFileArrayBuffer(arrayBuffer);
+      setPDFFileArrayBuffer(arrayBuffer);
     }
 
     if (templateFile !== null) {
@@ -56,7 +57,7 @@ export default function MainPage() {
 
       <DateRangePicker dateRange={dateRange} setDateRange={setDateRange} />
 
-      <PDFDisplay pdfFileArrayBuffer={templateFileArrayBuffer} />
+      <PDFDisplay pdfFileArrayBuffer={pdfFileArrayBuffer} />
     </div>
   );
 }
