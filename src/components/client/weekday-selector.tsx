@@ -1,6 +1,7 @@
-import type { Dispatch, SetStateAction } from "react";
+import { type Dispatch, type SetStateAction } from "react";
 import { Switch } from "../ui/switch";
 import { Checkbox } from "../ui/checkbox";
+import { Label } from "@radix-ui/react-label";
 
 interface WeekdaySwitchProps {
   isExcluding: boolean;
@@ -8,7 +9,7 @@ interface WeekdaySwitchProps {
   setSelectedDaysOfWeek: Dispatch<SetStateAction<number[]>>;
 }
 
-export default function WeekdaySwitch({
+export default function WeekdaySelector({
   isExcluding,
   setIsExcluding,
   setSelectedDaysOfWeek,
@@ -37,6 +38,16 @@ export default function WeekdaySwitch({
     });
   }
 
+  const CheckBoxes = weekDays.map((name, index) => {
+    const id = `${name}-CheckBox`;
+    return (
+      <div key={id}>
+        <Label htmlFor={id}>{name}</Label>
+        <Checkbox id={id} onCheckedChange={() => toggleWeekDay(index)} />
+      </div>
+    );
+  });
+
   return (
     <div>
       <Switch
@@ -44,10 +55,7 @@ export default function WeekdaySwitch({
         onCheckedChange={() => setIsExcluding(!isExcluding)}
       />
 
-      <div>
-        <Checkbox onCheckedChange={() => toggleWeekDay(1)} />
-        <Checkbox onCheckedChange={() => toggleWeekDay(1)} />
-      </div>
+      {CheckBoxes}
     </div>
   );
 }

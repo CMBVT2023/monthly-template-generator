@@ -2,7 +2,7 @@
 
 import CoordinateInputs from "@/components/client/coordinate-inputs";
 import FilePicker from "@/components/client/file-picker";
-import WeekdaySwitch from "@/components/client/weekday-switch";
+import WeekdaySelector from "@/components/client/weekday-selector";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -41,7 +41,11 @@ export default function MainPage() {
 
       <FilePicker currentFile={templateFile} setCurrentFile={setTemplateFile} />
 
-      <WeekdaySwitch isExcluding={isExcluding} setIsExcluding={setIsExcluding} setSelectedDaysOfWeek={setSelectedDaysOfWeek} />
+      <WeekdaySelector
+        isExcluding={isExcluding}
+        setIsExcluding={setIsExcluding}
+        setSelectedDaysOfWeek={setSelectedDaysOfWeek}
+      />
 
       <Popover>
         <PopoverTrigger asChild>
