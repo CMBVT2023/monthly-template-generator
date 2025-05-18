@@ -3,9 +3,10 @@
 import CoordinateInputs from "@/components/client/coordinate-inputs";
 import DateRangePicker from "@/components/client/date-range-picker";
 import FilePicker from "@/components/client/file-picker";
+import PDFDisplay from "@/components/client/pdf-display";
 import WeekdaySelector from "@/components/client/weekday-selector";
 import { addDays } from "date-fns";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DateRange } from "react-day-picker";
 
 export default function MainPage() {
@@ -13,6 +14,8 @@ export default function MainPage() {
   const [yCoordinate, setYCoordinate] = useState<number>(0);
 
   const [templateFile, setTemplateFile] = useState<File | null>(null);
+  const [templateFileArrayBuffer, setTemplateFileArrayBuffer] =
+    useState<ArrayBuffer | null>(null);
 
   const [dateRange, setDateRange] = useState<DateRange | undefined>({
     from: new Date(),
@@ -22,6 +25,17 @@ export default function MainPage() {
   const [isExcluding, setIsExcluding] = useState<boolean>(false);
 
   const [selectedDaysOfWeek, setSelectedDaysOfWeek] = useState<number[]>([]);
+
+  useEffect(() => {
+    async function getArrayBuffer(file: File) {
+      const arrayBuffer = await file.arrayBuffer();
+      setTemplateFileArrayBuffer(arrayBuffer);
+    }
+
+    if (templateFile !== null) {
+      getArrayBuffer(templateFile);
+    }
+  }, [templateFile]);
 
   return (
     <div>
@@ -41,6 +55,8 @@ export default function MainPage() {
       />
 
       <DateRangePicker dateRange={dateRange} setDateRange={setDateRange} />
+
+      <PDFDisplay pdfFileArrayBuffer={templateFileArrayBuffer} />
     </div>
   );
 }
