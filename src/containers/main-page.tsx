@@ -5,7 +5,9 @@ import DateRangePicker from "@/components/client/date-range-picker";
 import FilePicker from "@/components/client/file-picker";
 import PDFDisplay from "@/components/client/pdf-display";
 import WeekdaySelector from "@/components/client/weekday-selector";
-import { getFilePath, modifyPDFFile } from "@/utils/pdf";
+import { Button } from "@/components/ui/button";
+import { generateDaysArray } from "@/utils/date";
+import { modifyPDFFile } from "@/utils/pdf";
 import { addDays } from "date-fns";
 import { useEffect, useState } from "react";
 import { DateRange } from "react-day-picker";
@@ -31,9 +33,11 @@ export default function MainPage() {
     to: addDays(new Date(), 30),
   });
 
-  const [isExcluding, setIsExcluding] = useState<boolean>(false);
+  const [isExcluding, setIsExcluding] = useState<boolean>(true);
 
   const [selectedDaysOfWeek, setSelectedDaysOfWeek] = useState<number[]>([]);
+
+  const [selectedDatesArray, setSelectedDatesArray] = useState<Date[]>([]);
 
   useEffect(() => {
     async function getArrayBuffer(file: File) {
@@ -47,7 +51,7 @@ export default function MainPage() {
   }, [templateFile]);
 
   useEffect(() => {
-    let loadingTimeout: NodeJS.Timeout| null = null;
+    let loadingTimeout: NodeJS.Timeout | null = null;
 
     async function getDisplayPDF(
       x: number,
@@ -77,6 +81,26 @@ export default function MainPage() {
     };
   }, [xCoordinate, yCoordinate, dateRange, templateFileArrayBuffer]);
 
+  function checkDayPicker() {
+    if (dateRange?.from != undefined && dateRange.to != undefined) {
+      const daysArray = generateDaysArray(
+        dateRange.from,
+        dateRange.to,
+        selectedDaysOfWeek,
+        isExcluding
+      );
+      setSelectedDatesArray(daysArray);
+    } else if (dateRange?.from) {
+      const daysArray = generateDaysArray(
+        dateRange.from,
+        dateRange.from,
+        selectedDaysOfWeek,
+        isExcluding
+      );
+      setSelectedDatesArray(daysArray);
+    }
+  }
+
   return (
     <div>
       <CoordinateInputs
@@ -95,6 +119,7 @@ export default function MainPage() {
       />
 
       <DateRangePicker dateRange={dateRange} setDateRange={setDateRange} />
+      <Button onClick={checkDayPicker}>Click</Button>
 
       <PDFDisplay pdfFilePath={pdfFilePath} />
     </div>
