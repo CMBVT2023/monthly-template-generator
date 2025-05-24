@@ -37,8 +37,6 @@ export default function MainPage() {
 
   const [selectedDaysOfWeek, setSelectedDaysOfWeek] = useState<number[]>([]);
 
-  const [selectedDatesArray, setSelectedDatesArray] = useState<Date[]>([]);
-
   useEffect(() => {
     async function getArrayBuffer(file: File) {
       const arrayBuffer = await file.arrayBuffer();
@@ -81,23 +79,27 @@ export default function MainPage() {
     };
   }, [xCoordinate, yCoordinate, dateRange, templateFileArrayBuffer]);
 
-  function checkDayPicker() {
-    if (dateRange?.from != undefined && dateRange.to != undefined) {
-      const daysArray = generateDaysArray(
-        dateRange.from,
-        dateRange.to,
-        selectedDaysOfWeek,
-        isExcluding
-      );
-      setSelectedDatesArray(daysArray);
-    } else if (dateRange?.from) {
-      const daysArray = generateDaysArray(
-        dateRange.from,
-        dateRange.from,
-        selectedDaysOfWeek,
-        isExcluding
-      );
-      setSelectedDatesArray(daysArray);
+  function checkSelectedDateRange() {
+    let daysArray: Date[] = [];
+    if (dateRange?.from != undefined) {
+      if (dateRange.to == undefined) {
+        daysArray = generateDaysArray(
+          dateRange.from,
+          dateRange.from,
+          selectedDaysOfWeek,
+          isExcluding
+        );
+      } else {
+        daysArray = generateDaysArray(
+          dateRange.from,
+          dateRange.to,
+          selectedDaysOfWeek,
+          isExcluding
+        );
+      }
+
+      // Create the modifyPDFArrayFunction
+      console.log(daysArray)
     }
   }
 
@@ -119,7 +121,7 @@ export default function MainPage() {
       />
 
       <DateRangePicker dateRange={dateRange} setDateRange={setDateRange} />
-      <Button onClick={checkDayPicker}>Click</Button>
+      <Button onClick={checkSelectedDateRange}>Generate</Button>
 
       <PDFDisplay pdfFilePath={pdfFilePath} />
     </div>
