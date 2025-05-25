@@ -118,8 +118,8 @@ export default function MainPage() {
   }
 
   return (
-    <div className="container p-2 w-lvw h-lvh">
-      <div className="w-full">
+    <div className="w-lvw h-lvh container p-2">
+      <div className="w-full flex flex-col gap-2">
         <div className="flex flex-row gap-2 w-full">
           <CoordinateInputs
             xCoordinate={xCoordinate}

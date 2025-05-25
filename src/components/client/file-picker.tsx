@@ -1,4 +1,4 @@
-import type { ChangeEvent, Dispatch } from "react";
+import type { ChangeEvent, Dispatch, SetStateAction } from "react";
 import { Input } from "../ui/input";
 
 interface FilePickerProps {
@@ -23,8 +23,8 @@ export default function FilePicker({currentFile, setCurrentFile}: FilePickerProp
     }
 
   return (
-    <div>
-        <div>
+    <div className="flex flex-col gap-2">
+        <div className="hidden md:flex gap-2">
             <h2>Current File:</h2>
             <h3>{getFileName()}</h3>
         </div>
