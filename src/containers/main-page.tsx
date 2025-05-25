@@ -118,8 +118,8 @@ export default function MainPage() {
   }
 
   return (
-    <div className="w-lvw h-lvh container p-2">
-      <div className="w-full flex flex-col gap-2">
+    <div className="container p-2 w-full h-full max-h-full overflow-y-auto flex flex-col gap-2">
+      <div className="w-full h-auto flex flex-col gap-2">
         <div className="flex flex-row gap-2 w-full">
           <CoordinateInputs
             xCoordinate={xCoordinate}
@@ -128,6 +128,7 @@ export default function MainPage() {
             setYCoordinate={setYCoordinate}
           />
         </div>
+        <DateRangePicker dateRange={dateRange} setDateRange={setDateRange} />
         <FilePicker
           currentFile={templateFile}
           setCurrentFile={setTemplateFile}
@@ -139,17 +140,14 @@ export default function MainPage() {
             setSelectedDaysOfWeek={setSelectedDaysOfWeek}
           />
         </FiltersToggle>
-        <DateRangePicker dateRange={dateRange} setDateRange={setDateRange} />
         <Button onClick={checkSelectedDateRange}>Generate</Button>
       </div>
 
-      <div className="w-full ">
-        {finishedPDFFilePath == "" ? (
-          <PDFDisplay pdfFilePath={pdfFilePath} />
-        ) : (
-          <PDFDisplay pdfFilePath={finishedPDFFilePath} />
-        )}
-      </div>
+      {finishedPDFFilePath == "" ? (
+        <PDFDisplay pdfFilePath={pdfFilePath} />
+      ) : (
+        <PDFDisplay pdfFilePath={finishedPDFFilePath} />
+      )}
     </div>
   );
 }
