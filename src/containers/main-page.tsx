@@ -3,6 +3,7 @@
 import CoordinateInputs from "@/components/client/coordinate-inputs";
 import DateRangePicker from "@/components/client/date-range-picker";
 import FilePicker from "@/components/client/file-picker";
+import FiltersToggle from "@/components/client/filters-toggle";
 import PDFDisplay from "@/components/client/pdf-display";
 import WeekdaySelector from "@/components/client/weekday-selector";
 import { Button } from "@/components/ui/button";
@@ -127,11 +128,14 @@ export default function MainPage() {
 
       <FilePicker currentFile={templateFile} setCurrentFile={setTemplateFile} />
 
-      <WeekdaySelector
-        isExcluding={isExcluding}
-        setIsExcluding={setIsExcluding}
-        setSelectedDaysOfWeek={setSelectedDaysOfWeek}
-      />
+
+      <FiltersToggle>
+        <WeekdaySelector
+          isExcluding={isExcluding}
+          setIsExcluding={setIsExcluding}
+          setSelectedDaysOfWeek={setSelectedDaysOfWeek}
+        />
+      </FiltersToggle>
 
       <DateRangePicker dateRange={dateRange} setDateRange={setDateRange} />
       <Button onClick={checkSelectedDateRange}>Generate</Button>
