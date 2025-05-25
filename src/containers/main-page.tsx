@@ -7,7 +7,7 @@ import PDFDisplay from "@/components/client/pdf-display";
 import WeekdaySelector from "@/components/client/weekday-selector";
 import { Button } from "@/components/ui/button";
 import { generateDaysArray } from "@/utils/date";
-import { modifyPDFFile } from "@/utils/pdf";
+import { generatePDFFromArray, previewPDFFile } from "@/utils/pdf";
 import { addDays } from "date-fns";
 import { useEffect, useState } from "react";
 import { DateRange } from "react-day-picker";
@@ -27,6 +27,7 @@ export default function MainPage() {
     useState<ArrayBuffer | null>(null);
 
   const [pdfFilePath, setPDFFilePath] = useState<string>("");
+  const [finishedPDFFilePath, setFinishedPDFFilePath] = useState<string>("");
 
   const [dateRange, setDateRange] = useState<DateRange | undefined>({
     from: new Date(),
@@ -55,9 +56,14 @@ export default function MainPage() {
       x: number,
       y: number,
       date: Date,
-      arrayBuffer: ArrayBuffer
+      templateFileArrayBuffer: ArrayBuffer
     ) {
-      const newFilePath = await modifyPDFFile(x, y, date, arrayBuffer);
+      const newFilePath = await previewPDFFile(
+        x,
+        y,
+        date,
+        templateFileArrayBuffer
+      );
       setPDFFilePath(newFilePath);
     }
 
@@ -79,10 +85,11 @@ export default function MainPage() {
     };
   }, [xCoordinate, yCoordinate, dateRange, templateFileArrayBuffer]);
 
-  function checkSelectedDateRange() {
+  async function checkSelectedDateRange() {
+    if (dateRange?.from === undefined || templateFileArrayBuffer === null) return;
+
     let daysArray: Date[] = [];
-    if (dateRange?.from != undefined) {
-      if (dateRange.to == undefined) {
+      if (dateRange.to === undefined) {
         daysArray = generateDaysArray(
           dateRange.from,
           dateRange.from,
@@ -96,10 +103,11 @@ export default function MainPage() {
           selectedDaysOfWeek,
           isExcluding
         );
-      }
 
       // Create the modifyPDFArrayFunction
-      console.log(daysArray)
+      
+      const newPDfFile = await generatePDFFromArray(daysArray, xCoordinate, yCoordinate, templateFileArrayBuffer);
+      setFinishedPDFFilePath(newPDfFile);
     }
   }
 
@@ -123,7 +131,11 @@ export default function MainPage() {
       <DateRangePicker dateRange={dateRange} setDateRange={setDateRange} />
       <Button onClick={checkSelectedDateRange}>Generate</Button>
 
-      <PDFDisplay pdfFilePath={pdfFilePath} />
+      {finishedPDFFilePath == "" ? (
+        <PDFDisplay pdfFilePath={pdfFilePath} />
+      ) : (
+        <PDFDisplay pdfFilePath={finishedPDFFilePath} />
+      )}
     </div>
   );
 }
