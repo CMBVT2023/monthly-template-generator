@@ -1,5 +1,4 @@
 import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
-import type { PDFEditingParameters } from "./types";
 
 export async function getFilePath(arrayBuffer: ArrayBuffer) {
   const pdfFile = await PDFDocument.load(arrayBuffer);
