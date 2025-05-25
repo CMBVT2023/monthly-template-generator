@@ -75,6 +75,7 @@ export default function MainPage() {
       const date = dateRange.from;
       loadingTimeout = setTimeout(() => {
         getDisplayPDF(xCoordinate, yCoordinate, date, templateFileArrayBuffer);
+        setFinishedPDFFilePath("");
       }, 500);
     }
 
@@ -86,27 +87,31 @@ export default function MainPage() {
   }, [xCoordinate, yCoordinate, dateRange, templateFileArrayBuffer]);
 
   async function checkSelectedDateRange() {
-    if (dateRange?.from === undefined || templateFileArrayBuffer === null) return;
+    if (dateRange?.from === undefined || templateFileArrayBuffer === null)
+      return;
 
     let daysArray: Date[] = [];
-      if (dateRange.to === undefined) {
-        daysArray = generateDaysArray(
-          dateRange.from,
-          dateRange.from,
-          selectedDaysOfWeek,
-          isExcluding
-        );
-      } else {
-        daysArray = generateDaysArray(
-          dateRange.from,
-          dateRange.to,
-          selectedDaysOfWeek,
-          isExcluding
-        );
+    if (dateRange.to === undefined) {
+      daysArray = generateDaysArray(
+        dateRange.from,
+        dateRange.from,
+        selectedDaysOfWeek,
+        isExcluding
+      );
+    } else {
+      daysArray = generateDaysArray(
+        dateRange.from,
+        dateRange.to,
+        selectedDaysOfWeek,
+        isExcluding
+      );
 
-      // Create the modifyPDFArrayFunction
-      
-      const newPDfFile = await generatePDFFromArray(daysArray, xCoordinate, yCoordinate, templateFileArrayBuffer);
+      const newPDfFile = await generatePDFFromArray(
+        daysArray,
+        xCoordinate,
+        yCoordinate,
+        templateFileArrayBuffer
+      );
       setFinishedPDFFilePath(newPDfFile);
     }
   }
