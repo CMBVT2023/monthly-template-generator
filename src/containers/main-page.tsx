@@ -118,33 +118,38 @@ export default function MainPage() {
   }
 
   return (
-    <div>
-      <CoordinateInputs
-        xCoordinate={xCoordinate}
-        setXCoordinate={setXCoordinate}
-        yCoordinate={yCoordinate}
-        setYCoordinate={setYCoordinate}
-      />
-
-      <FilePicker currentFile={templateFile} setCurrentFile={setTemplateFile} />
-
-
-      <FiltersToggle>
-        <WeekdaySelector
-          isExcluding={isExcluding}
-          setIsExcluding={setIsExcluding}
-          setSelectedDaysOfWeek={setSelectedDaysOfWeek}
+    <div className="container p-2 w-lvw h-lvh">
+      <div className="w-full">
+        <div className="flex flex-row gap-2 w-full">
+          <CoordinateInputs
+            xCoordinate={xCoordinate}
+            setXCoordinate={setXCoordinate}
+            yCoordinate={yCoordinate}
+            setYCoordinate={setYCoordinate}
+          />
+        </div>
+        <FilePicker
+          currentFile={templateFile}
+          setCurrentFile={setTemplateFile}
         />
-      </FiltersToggle>
+        <FiltersToggle>
+          <WeekdaySelector
+            isExcluding={isExcluding}
+            setIsExcluding={setIsExcluding}
+            setSelectedDaysOfWeek={setSelectedDaysOfWeek}
+          />
+        </FiltersToggle>
+        <DateRangePicker dateRange={dateRange} setDateRange={setDateRange} />
+        <Button onClick={checkSelectedDateRange}>Generate</Button>
+      </div>
 
-      <DateRangePicker dateRange={dateRange} setDateRange={setDateRange} />
-      <Button onClick={checkSelectedDateRange}>Generate</Button>
-
-      {finishedPDFFilePath == "" ? (
-        <PDFDisplay pdfFilePath={pdfFilePath} />
-      ) : (
-        <PDFDisplay pdfFilePath={finishedPDFFilePath} />
-      )}
+      <div className="w-full ">
+        {finishedPDFFilePath == "" ? (
+          <PDFDisplay pdfFilePath={pdfFilePath} />
+        ) : (
+          <PDFDisplay pdfFilePath={finishedPDFFilePath} />
+        )}
+      </div>
     </div>
   );
 }

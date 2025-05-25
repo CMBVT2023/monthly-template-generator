@@ -1,5 +1,6 @@
 import type { ChangeEvent, Dispatch, SetStateAction } from "react";
 import { Input } from "../ui/input";
+import { Label } from "../ui/label";
 
 interface CoordinateInputsProps {
   xCoordinate: number;
@@ -31,23 +32,30 @@ export default function CoordinateInputs({
   }
 
   return (
-    <div>
-      <Input
-        id="x-coordinate"
-        value={xCoordinate}
-        onChange={validateCoordinate}
-        type="number"
-        min={0}
-        max={100}
-      />
-      <Input
-        id="y-coordinate"
-        value={yCoordinate}
-        onChange={validateCoordinate}
-        type="number"
-        min={0}
-        max={100}
-      />
-    </div>
+    <>
+      <div className="flex gap-1 w-full">
+        <Label htmlFor="x-coordinate">X:</Label>
+        <Input
+          id="x-coordinate"
+          value={xCoordinate}
+          onChange={validateCoordinate}
+          type="number"
+          min={0}
+          max={100}
+        />
+      </div>
+
+      <div className="flex gap-1 w-full">
+        <Label htmlFor="y-coordinate">Y:</Label>
+        <Input
+          id="y-coordinate"
+          value={yCoordinate}
+          onChange={validateCoordinate}
+          type="number"
+          min={0}
+          max={100}
+        />
+      </div>
+    </>
   );
 }
