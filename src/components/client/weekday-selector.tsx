@@ -41,7 +41,7 @@ export default function WeekdaySelector({
   const CheckBoxes = weekDays.map((name, index) => {
     const id = `${name}-CheckBox`;
     return (
-      <div key={id} className="flex gap-2 items-center text-xl">
+      <div key={id} className="flex gap-2 items-center lg:text-xl">
         <Checkbox id={id} onCheckedChange={() => toggleWeekDay(index)} />
         <Label htmlFor={id}>{name}</Label>
       </div>
@@ -51,7 +51,7 @@ export default function WeekdaySelector({
   return (
     <div className="flex lg:flex-col flex-wrap lg:flex-nowrap gap-2 justify-center">
       <div className="flex gap-2 items-center w-full justify-center">
-        <Label htmlFor="exclusion-switch" className="text-2xl">
+        <Label htmlFor="exclusion-switch" className="lg:text-2xl">
           {isExcluding ? "Excluding" : "Including"}
         </Label>
         <Switch

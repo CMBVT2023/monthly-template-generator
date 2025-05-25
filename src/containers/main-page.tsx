@@ -120,7 +120,7 @@ export default function MainPage() {
   return (
     <div className="container p-2 w-full h-full max-h-full overflow-y-auto overflow-x-hidden flex flex-col md:flex-row gap-2">
       <div className="w-full md:w-1/3 h-auto max-h-full min-h-60 overflow-y-auto overflow-x-hidden flex flex-col gap-2">
-        <div className="flex flex-row lg:flex-col gap-2 w-full">
+        <div className="flex flex-row lg:flex-col gap-2 lg:gap-5 w-full h-fit p-2">
           <CoordinateInputs
             xCoordinate={xCoordinate}
             setXCoordinate={setXCoordinate}
