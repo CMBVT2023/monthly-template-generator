@@ -39,6 +39,8 @@ export default function MainPage() {
 
   const [selectedDaysOfWeek, setSelectedDaysOfWeek] = useState<number[]>([]);
 
+  const [isUserInteractionDisabled, setIsUserInteractionDisabled] = useState<boolean>(false);
+
   useEffect(() => {
     async function getArrayBuffer(file: File) {
       const arrayBuffer = await file.arrayBuffer();
@@ -91,6 +93,8 @@ export default function MainPage() {
     if (dateRange?.from === undefined || templateFileArrayBuffer === null)
       return;
 
+    setIsUserInteractionDisabled(true);
+
     let daysArray: Date[] = [];
     if (dateRange.to === undefined) {
       daysArray = generateDaysArray(
@@ -113,6 +117,7 @@ export default function MainPage() {
         yCoordinate,
         templateFileArrayBuffer
       );
+      setIsUserInteractionDisabled(false);
       setFinishedPDFFilePath(newPDfFile);
     }
   }
@@ -140,7 +145,7 @@ export default function MainPage() {
             setSelectedDaysOfWeek={setSelectedDaysOfWeek}
           />
         </FiltersToggle>
-        <Button onClick={checkSelectedDateRange}>Generate</Button>
+        <Button disabled={isUserInteractionDisabled} onClick={checkSelectedDateRange}>Generate</Button>
       </div>
 
       {finishedPDFFilePath == "" ? (
