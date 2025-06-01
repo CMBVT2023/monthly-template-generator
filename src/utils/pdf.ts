@@ -1,4 +1,5 @@
 import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
+import { getDateString } from "./date";
 
 export async function getFilePath(arrayBuffer: ArrayBuffer) {
   const pdfFile = await PDFDocument.load(arrayBuffer);
@@ -19,7 +20,7 @@ export async function modifyPDFFile(
   const pageWidth = pdfPage.getWidth();
   const pageHeight = pdfPage.getHeight();
 
-  const dateText = date.toDateString();
+  const dateText = getDateString(date);
   const textSize = 16;
   // const textWidth = customFont.widthOfTextAtSize(dateText, textSize);
   // const textHeight = customFont.heightAtSize(textSize);
