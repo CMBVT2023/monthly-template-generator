@@ -16,34 +16,40 @@ export default function DateRangePicker({
   setDateRange,
 }: DateRangePickerProps) {
   return (
-    <Popover>
-      <PopoverTrigger asChild>
-        <Button id="date" variant={"outline"}>
-          <CalendarIcon />
-          {dateRange?.from ? (
-            dateRange.to ? (
-              <>
-                {format(dateRange.from, "LLL dd, y")} -{" "}
-                {format(dateRange.to, "LLL dd, y")}
-              </>
+    <div className="flex justify-center">
+      <Popover>
+        <PopoverTrigger asChild>
+          <Button
+            id="date"
+            variant={"outline"}
+            className="bg-secondary-background w-4/5"
+          >
+            <CalendarIcon />
+            {dateRange?.from ? (
+              dateRange.to ? (
+                <>
+                  {format(dateRange.from, "LLL dd, y")} -{" "}
+                  {format(dateRange.to, "LLL dd, y")}
+                </>
+              ) : (
+                format(dateRange.from, "LLL dd, y")
+              )
             ) : (
-              format(dateRange.from, "LLL dd, y")
-            )
-          ) : (
-            <span>Pick a date</span>
-          )}
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-auto p-0" align="start">
-        <Calendar
-          initialFocus
-          mode="range"
-          defaultMonth={dateRange?.from}
-          selected={dateRange}
-          onSelect={setDateRange}
-          numberOfMonths={2}
-        />
-      </PopoverContent>
-    </Popover>
+              <span>Pick a date</span>
+            )}
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="w-auto p-0" align="start">
+          <Calendar
+            initialFocus
+            mode="range"
+            defaultMonth={dateRange?.from}
+            selected={dateRange}
+            onSelect={setDateRange}
+            numberOfMonths={2}
+          />
+        </PopoverContent>
+      </Popover>
+    </div>
   );
 }

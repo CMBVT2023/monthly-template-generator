@@ -39,7 +39,8 @@ export default function MainPage() {
 
   const [selectedDaysOfWeek, setSelectedDaysOfWeek] = useState<number[]>([]);
 
-  const [isUserInteractionDisabled, setIsUserInteractionDisabled] = useState<boolean>(false);
+  const [isUserInteractionDisabled, setIsUserInteractionDisabled] =
+    useState<boolean>(false);
 
   useEffect(() => {
     async function getArrayBuffer(file: File) {
@@ -123,8 +124,8 @@ export default function MainPage() {
   }
 
   return (
-    <div className="container p-2 w-full h-full max-h-full overflow-y-auto overflow-x-hidden flex flex-col md:flex-row gap-2">
-      <div className="w-full md:w-1/3 h-auto max-h-full min-h-60 overflow-y-auto overflow-x-hidden flex flex-col gap-2">
+    <div className="container p-2 w-full h-full max-h-full overflow-y-auto overflow-x-hidden flex flex-col md:flex-row gap-2 border-x-2 border-highlight">
+      <div className="w-full md:w-1/3 h-auto max-h-full min-h-60 p-2 overflow-y-auto overflow-x-hidden flex flex-col gap-2 border-4 border-highlight">
         <div className="flex flex-row lg:flex-col gap-2 lg:gap-5 w-full h-fit p-2">
           <CoordinateInputs
             xCoordinate={xCoordinate}
@@ -145,7 +146,12 @@ export default function MainPage() {
             setSelectedDaysOfWeek={setSelectedDaysOfWeek}
           />
         </FiltersToggle>
-        <Button disabled={isUserInteractionDisabled} onClick={checkSelectedDateRange}>Generate</Button>
+        <Button
+          disabled={isUserInteractionDisabled}
+          onClick={checkSelectedDateRange}
+        >
+          Generate
+        </Button>
       </div>
 
       {finishedPDFFilePath == "" ? (
