@@ -1,7 +1,6 @@
 import type {
   ChangeEvent,
   Dispatch,
-  FormEventHandler,
   SetStateAction,
 } from "react";
 import { Input } from "../ui/input";
@@ -30,27 +29,27 @@ export default function CoordinateInputs({
       value = 100;
     }
 
-    if (
-      e.target.id === "x-coordinate"
-    ) {
+    if (e.target.id === "x-coordinate") {
       setXCoordinate(value);
-    } else if (
-      e.target.id === "y-coordinate"
-    ) {
+    } else if (e.target.id === "y-coordinate") {
       setYCoordinate(value);
     }
   }
 
   function validateXSliderCoordinate(value: number[]) {
-    const [xCoordinate] = value;
+    if (value.length > 0) {
+      const [xCoordinate] = value;
 
-    setXCoordinate(xCoordinate);
+      setXCoordinate(xCoordinate);
+    }
   }
 
   function validateYSliderCoordinate(value: number[]) {
-    const [yCoordinate] = value;
+    if (value.length > 0) {
+      const [yCoordinate] = value;
 
-    setYCoordinate(yCoordinate);
+      setYCoordinate(yCoordinate);
+    }
   }
 
   return (
@@ -82,7 +81,7 @@ export default function CoordinateInputs({
         <Label htmlFor="x-coordinate-slider">X:</Label>
         <Slider
           id="x-coordinate-slider"
-          onValueCommit={validateXSliderCoordinate}
+          onValueChange={validateXSliderCoordinate}
           min={0}
           max={100}
           step={1}
@@ -93,7 +92,7 @@ export default function CoordinateInputs({
         <Label htmlFor="y-coordinate-slider">Y:</Label>
         <Slider
           id="y-coordinate-slider"
-          onValueCommit={validateYSliderCoordinate}
+          onValueChange={validateYSliderCoordinate}
           min={0}
           max={100}
           step={1}
