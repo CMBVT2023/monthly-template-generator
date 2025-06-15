@@ -9,7 +9,7 @@ import WeekdaySelector from "@/components/client/weekday-selector";
 import { Button } from "@/components/ui/button";
 import { generateDaysArray } from "@/utils/date";
 import { generatePDFFromArray, previewPDFFile } from "@/utils/pdf";
-import { addDays } from "date-fns";
+import { addDays, differenceInDays } from "date-fns";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { DateRange } from "react-day-picker";
@@ -106,6 +106,11 @@ export default function MainPage() {
         isExcluding
       );
     } else {
+      if (differenceInDays(dateRange.to, dateRange.from) > 31) {
+        setIsUserInteractionDisabled(false);
+        alert("Maximum of 31 days generated at a time!");
+        return;
+      }
       daysArray = generateDaysArray(
         dateRange.from,
         dateRange.to,
