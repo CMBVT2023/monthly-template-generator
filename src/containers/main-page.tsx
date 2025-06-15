@@ -9,7 +9,8 @@ import WeekdaySelector from "@/components/client/weekday-selector";
 import { Button } from "@/components/ui/button";
 import { generateDaysArray } from "@/utils/date";
 import { generatePDFFromArray, previewPDFFile } from "@/utils/pdf";
-import { addDays } from "date-fns";
+import { addDays, differenceInDays } from "date-fns";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { DateRange } from "react-day-picker";
 
@@ -105,6 +106,11 @@ export default function MainPage() {
         isExcluding
       );
     } else {
+      if (differenceInDays(dateRange.to, dateRange.from) > 31) {
+        setIsUserInteractionDisabled(false);
+        alert("Maximum of 31 days generated at a time!");
+        return;
+      }
       daysArray = generateDaysArray(
         dateRange.from,
         dateRange.to,
@@ -149,16 +155,25 @@ export default function MainPage() {
         <Button
           disabled={isUserInteractionDisabled}
           onClick={checkSelectedDateRange}
+          className="cursor-pointer"
         >
           Generate
         </Button>
+        <Button
+          className="w-full cursor-pointer p-0"
+          disabled={finishedPDFFilePath == "" ? true : false}
+        >
+          <Link
+            download="generated-file.pdf"
+            href={finishedPDFFilePath}
+            className="w-full h-full p-2"
+          >
+            Download
+          </Link>
+        </Button>
       </div>
 
-      {finishedPDFFilePath == "" ? (
-        <PDFDisplay pdfFilePath={pdfFilePath} />
-      ) : (
-        <PDFDisplay pdfFilePath={finishedPDFFilePath} />
-      )}
+      {pdfFilePath !== "" && <PDFDisplay pdfFilePath={pdfFilePath} />}
     </div>
   );
 }
