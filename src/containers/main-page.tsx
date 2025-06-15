@@ -154,11 +154,7 @@ export default function MainPage() {
         </Button>
       </div>
 
-      {finishedPDFFilePath == "" ? (
-        <PDFDisplay pdfFilePath={pdfFilePath} />
-      ) : (
-        <PDFDisplay pdfFilePath={finishedPDFFilePath} />
-      )}
+      {pdfFilePath !== "" && <PDFDisplay pdfFilePath={pdfFilePath} />}
     </div>
   );
 }
