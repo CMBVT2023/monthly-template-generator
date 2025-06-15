@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { generateDaysArray } from "@/utils/date";
 import { generatePDFFromArray, previewPDFFile } from "@/utils/pdf";
 import { addDays } from "date-fns";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { DateRange } from "react-day-picker";
 
@@ -149,8 +150,21 @@ export default function MainPage() {
         <Button
           disabled={isUserInteractionDisabled}
           onClick={checkSelectedDateRange}
+          className="cursor-pointer"
         >
           Generate
+        </Button>
+        <Button
+          className="w-full cursor-pointer p-0"
+          disabled={finishedPDFFilePath == "" ? true : false}
+        >
+          <Link
+            download="generated-file.pdf"
+            href={finishedPDFFilePath}
+            className="w-full h-full p-2"
+          >
+            Download
+          </Link>
         </Button>
       </div>
 
